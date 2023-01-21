@@ -1,5 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import {SerialPort} from 'serialport';
+import {ReadlineParser} from '@serialport/parser-readline';
+
+const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
+const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
+serialport.on("open", () => {
+  console.log('serial port open');
+});
+parser.on('data', data =>{
+  console.log('arduino data:', data);
+});
+
 /**
  * Some predefined delay values (in milliseconds).
  */
