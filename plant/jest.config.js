@@ -1,9 +1,18 @@
-module.exports = {
+export default {
   testEnvironment: 'node',
-  testEnvironmentOptions: {
-    NODE_ENV: 'test',
+  preset: 'ts-jest/presets/default-esm',
+  transform: {
+    '^.+\\.m?[tj]s?$': ['ts-jest', { useESM: true }],
   },
-  restoreMocks: true,
-  coveragePathIgnorePatterns: ['node_modules', 'src/config', 'src/app.js', 'tests'],
-  coverageReporters: ['text', 'lcov', 'clover', 'html'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.(m)?js$': '$1',
+  },
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(m)?ts$',
+  coverageDirectory: 'coverage',
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    'src/**/*.mts',
+    '!src/**/*.d.ts',
+    '!src/**/*.d.mts',
+  ],
 };
