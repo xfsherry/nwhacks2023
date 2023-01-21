@@ -3,13 +3,17 @@ import dotenv from 'dotenv';
 import {SerialPort} from 'serialport';
 import {ReadlineParser} from '@serialport/parser-readline';
 
+let moisturelevel: string;
 const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
 const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
 serialport.on("open", () => {
   console.log('serial port open');
 });
-parser.on('data', data =>{
+parser.on('data', (data: string) =>{
   console.log('arduino data:', data);
+  if (data.includes("%")) {
+    moisturelevel = data;
+  }
 });
 
 /**
@@ -28,6 +32,10 @@ const port = 8000;
 
 app.get('/', (_req, res) => {
   res.send('Express + TypeScript Server');
+});
+
+app.get('/moisturelevel', (_req, res) => {
+  res.send(moisturelevel);
 });
 
 app.listen(port, () => {
