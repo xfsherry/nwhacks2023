@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import {styled} from "@mui/material/styles";
 import React, {useState} from "react";
+import axios from "axios";
 
 
 const Input = styled("input")({
@@ -28,6 +29,7 @@ return (
                         setImage(imageFile);
                         const base64Image = await toBase64(imageFile);
                         console.log(base64Image);
+                        const plantName = await axios.post("localhost:8000/sentImage", base64Image);
                         
                         e.target.value = null;
                     }}
