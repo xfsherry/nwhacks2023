@@ -1,4 +1,5 @@
 import './App.css';
+import ImageUpload from './Components/ImageUpload';
 import Header from './Components/Header';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
       <Header className="App-header">
           Plants
       </Header>
+      <ImageUpload/>
     </div>
   );
 }
