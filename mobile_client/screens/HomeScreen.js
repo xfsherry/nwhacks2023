@@ -1,4 +1,4 @@
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Portal, Provider as PaperProvider } from 'react-native-paper';
 import Header from '../components/Header';
 import FabGroup from '../components/fabGroup';
 import MyPlantsTitle from '../components/myPlantsTitle';
@@ -57,9 +57,12 @@ const HomeScreen = ({navigation, route}) => {
                         navigation={navigation}
                     />
                 ))}
-                </ScrollView>
+                
+                <Portal>
+                <FabGroup navigation={navigation}></FabGroup>
+                </Portal>
+            </ScrollView>
             </SafeAreaView>
-            <FabGroup navigation={navigation}></FabGroup>
         </PaperProvider>
     );
 };
