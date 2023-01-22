@@ -11,14 +11,14 @@ const PlantDetailsScreen = ({navigation, route}) => {
 
   const [plantData, setPlantData] = useState([]);
 
-  const addToMyPlants = async() => {
+  const addToMyPlants = async (e) => {
     try {
-      const data = await axios.post(`http://10.19.132.114:8000/addplant`, {
+      const data = await axios.post(`http://10.19.134.173:8000/addplant`, {
         id: plantData.id,
         common_name: plantData.commonName,
         scientific_name: plantData.scientificName,
         image_url: plantData.imageUrl,
-        moisture_level: plantData.moistureLevel
+        soil_humidity: plantData.soilHumidity
       });
     } catch (error) {
         console.log(error);
@@ -27,7 +27,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
 
   const fetchPlant = async() => {
     try {
-      const data = await axios.get(`http://10.19.130.59:8000/plant/${id}`);
+      const data = await axios.get(`http://10.19.134.173:8000/plant/${id}`);
       console.log(data.data);
       setPlantData(data.data);
     } catch (error) {
@@ -59,7 +59,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
                 <Text>{`Edible Part: ${plantData.ediblePart ?? 'N/A'}`}</Text>
                 <Text>{`Family: ${plantData.family ?? 'N/A'}`}</Text>
               </View>
-              <Button title="Add to My Plants" onPress={() => addToMyPlants()}></Button>
+              <Button color={'#83AEA0'} title="Add to My Plants" onPress={(e) => addToMyPlants(e)}></Button>
             <FabGroup navigation={navigation}></FabGroup>
         </PaperProvider>
         </ScrollView>

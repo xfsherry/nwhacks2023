@@ -21,7 +21,7 @@ const TextSearchScreen = ({navigation, route}) => {
     const fetchSearch = async () => {
       try {
 
-         const { data } = await axios.get(`http://10.19.132.114:8000/plant/search/${searchQuery}`);
+         const { data } = await axios.get(`http://10.19.134.173:8000/plant/search/${searchQuery}`);
              if (data) {
              setSearchData(data.data);
           //    setNumOfPages(data.total_pages);

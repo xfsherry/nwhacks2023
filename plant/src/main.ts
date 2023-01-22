@@ -79,17 +79,17 @@ app.get('/myplants', (req, res) => {
 })
 
 app.post('/addplant', express.json(), async(req, res) => {
-  const writePlantData = async (id, common_name, scientific_name, image_url, moisture_level) => {
+  const writePlantData = async (id = '', common_name, scientific_name, image_url, soil_humidity) => {
     const db = getDatabase();
     await set(ref(db, 'plants/' + id), {
       common_name,
       scientific_name,
       image_url,
-      moisture_level
+      soil_humidity
     });
   }
-  const { id, common_name, scientific_name, image_url, moisture_level } = req.body;
-  await writePlantData(id, common_name, scientific_name, image_url, moisture_level);
+  const { id, common_name, scientific_name, image_url, soil_humidity } = req.body;
+  await writePlantData(id, common_name, scientific_name, image_url, soil_humidity);
   res.send('success');
 })
 
@@ -153,7 +153,7 @@ app.get('/plant/:id', async (req, res) => {
     genus: mainSpecies.genus,
     nativeTo: mainSpecies.distribution.native
   };
-  console.log(result.data.data);
+  //console.log(result.data.data);
   console.log("yee");
   res.send(dataResponse);
   } catch (e) {
