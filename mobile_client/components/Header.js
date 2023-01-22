@@ -1,10 +1,15 @@
 import { Appbar, Provider as PaperProvider } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
-const Header = () => {
+const Header = ({navigation}) => {
+    const [fontsLoaded] = useFonts({
+        "Open-Sans": require('../assets/OpenSans-VariableFont.ttf')
+    });
+
     return(
-        <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => {}} />
+      <Appbar.Header style={styles.header}>
+        <Appbar.BackAction onPress={() => navigation.navigate('Home')} />
         <Appbar.Content  titleStyle= {{ fontFamily: 'Open-Sans', fontSize: 28 }} title="I wet my plants" />
       </Appbar.Header>
     )
