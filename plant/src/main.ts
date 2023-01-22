@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-// import {SerialPort} from 'serialport';
-// import {ReadlineParser} from '@serialport/parser-readline';
+import {SerialPort} from 'serialport';
+import {ReadlineParser} from '@serialport/parser-readline';
 import axios, { AxiosResponse } from 'axios';
 
 import cors from 'cors';
@@ -24,17 +24,17 @@ const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase(firebaseApp);
 
 let moisturelevel: string;
-// const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
-// const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
-// serialport.on("open", () => {
-//   console.log('serial port open');
-// });
-// parser.on('data', (data: string) =>{
-//   //console.log('arduino data:', data);
-//   if (data.includes("%")) {
-//     moisturelevel = data;
-//   }
-// });
+const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
+const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
+serialport.on("open", () => {
+  console.log('serial port open');
+});
+parser.on('data', (data: string) =>{
+  //console.log('arduino data:', data);
+  if (data.includes("%")) {
+    moisturelevel = data;
+  }
+});
 
 /**
  * Some predefined delay values (in milliseconds).
@@ -63,7 +63,6 @@ app.get('/myplants', (req, res) => {
 
   get(child(dbRef, `plants/`)).then((snapshot) => {
   if (snapshot.exists()) {
-    console.log(snapshot.val());
     const response = []
     for (const [key, value] of Object.entries(snapshot.val())) {
       response.push({id: key, ...value as any});
@@ -79,7 +78,7 @@ app.get('/myplants', (req, res) => {
 })
 
 app.post('/addplant', express.json(), async(req, res) => {
-  const writePlantData = async (id = '', common_name, scientific_name, image_url, soil_humidity) => {
+  const writePlantData = async (id = '', common_name ='', scientific_name='', image_url='', soil_humidity='') => {
     const db = getDatabase();
     await set(ref(db, 'plants/' + id), {
       common_name,

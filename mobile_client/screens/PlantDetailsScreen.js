@@ -20,6 +20,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
         image_url: plantData.imageUrl,
         soil_humidity: plantData.soilHumidity
       });
+      navigation.navigate('Home');
     } catch (error) {
         console.log(error);
     }

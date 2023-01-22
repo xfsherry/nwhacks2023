@@ -14,7 +14,7 @@ export default function App() {
 
   const fetchPlant = async() => {
     try {
-      const data = await axios.get(`http://10.19.132.114:8000/plant/238331`);
+      const data = await axios.get(`http://10.19.134.173:8000/plant/238331`);
       console.log(data.data);
       setPlantData(data.data);
     } catch (error) {

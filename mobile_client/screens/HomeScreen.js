@@ -16,7 +16,7 @@ const HomeScreen = ({navigation, route}) => {
 
     const getMyPlants = async() => {
         try {
-            const data = await axios.get(`http://10.19.130.59:8000/myplants`);
+            const data = await axios.get(`http://10.19.134.173:8000/myplants`);
             console.log(data.data);
             setMyPlantData(data.data);
         } catch (error) {
@@ -26,7 +26,7 @@ const HomeScreen = ({navigation, route}) => {
 
     const getMoistureLevel = async () => {
         try {
-            const data = await axios.get(`http://10.19.130.59:8000/moisturelevel`);
+            const data = await axios.get(`http://10.19.134.173:8000/moisturelevel`);
             console.log(data.data);
             setMoistureLevel(data.data);
         } catch (error) {
@@ -37,6 +37,14 @@ const HomeScreen = ({navigation, route}) => {
     useEffect(() => {
         getMyPlants();
     }, []);
+
+    useEffect(() => {
+        setInterval(() => {
+            getMoistureLevel();
+          }, 10000);
+      
+        
+    }, [moistureLevel]);
 
     return (
         <PaperProvider>
