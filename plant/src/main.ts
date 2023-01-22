@@ -13,7 +13,7 @@ serialport.on("open", () => {
   console.log('serial port open');
 });
 parser.on('data', (data: string) =>{
-  console.log('arduino data:', data);
+  //console.log('arduino data:', data);
   if (data.includes("%")) {
     moisturelevel = data;
   }
@@ -45,7 +45,8 @@ app.get('/moisturelevel', (_req, res) => {
   res.send(moisturelevel);
 });
 
-app.post('/sendimage', (req, res) => {
+app.post('/sendimage', express.json(),(req, res) => {
+  console.log(req)
   const postBody = {
     images: [req.body.base64EncodedImage]
   };

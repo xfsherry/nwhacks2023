@@ -29,8 +29,8 @@ return (
                         setImage(imageFile);
                         const base64Image = await toBase64(imageFile);
                         console.log(base64Image);
-                        const plantName = await axios.post("localhost:8000/sentImage", base64Image);
-                        
+                        const plantName = await axios.post("http://localhost:8000/sendimage", {base64EncodedImage: base64Image});
+                        console.log(plantName);
                         e.target.value = null;
                     }}
                     accept="image/*"
