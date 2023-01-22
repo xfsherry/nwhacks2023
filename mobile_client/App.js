@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import ImageSearchScreen from './screens/ImageSearchScreen';
 import TextSearchScreen from './screens/TextSearchScreen';
+import { ScrollView, SafeAreaView } from 'react-native';
 
 export default function App() {
   const [plantData, setPlantData] = useState([]);
@@ -28,13 +29,13 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: true }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="ImageSearch" component={ImageSearchScreen} />
-        <Stack.Screen name="TextSearch" component={TextSearchScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="ImageSearch" component={ImageSearchScreen} />
+          <Stack.Screen name="TextSearch" component={TextSearchScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 
