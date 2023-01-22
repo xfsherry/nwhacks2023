@@ -2,28 +2,33 @@ import * as React from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import CustomProgressBar from './progressBar';
+import { Image, View } from 'react-native';
 
-const PlantCard = ({commonName, scientificName, img, navigation}) => {
+const MyPlantCard = ({id, commonName, scientificName, img, moistureLevel, moisture, navigation}) => {
     console.log(commonName);
     console.log(scientificName);
     
-
   return (  
+    <>
     <Card 
         mode={'contained'} 
         style={styles.plantCard}
-        onPress={()=> navigation.navigate('PlantDetails')}>
+        onPress={()=> navigation.navigate('PlantDetails', {id:id})}>
         <Card.Content>
-        <Text variant="titleLarge">{commonName ? commonName: scientificName}</Text>
+            <View style={{flexDirection:"row"}}>
+                <Text style={{flex:1}} variant="titleLarge">{commonName ? commonName: scientificName}</Text>
+                <Text variant="titleLarge">{moistureLevel}</Text>
+            </View>
         <Text style={styles.scientificName} variant="bodyMedium">{commonName? scientificName : ''}</Text>
+        <CustomProgressBar moisture={moisture}></CustomProgressBar>
         </Card.Content>
         <Card.Cover source={{ uri: img }} />
-        <CustomProgressBar></CustomProgressBar>
     </Card>
+    </>
     );
 }
 
-export default PlantCard;
+export default MyPlantCard;
 
 const styles = StyleSheet.create({
     container: {
