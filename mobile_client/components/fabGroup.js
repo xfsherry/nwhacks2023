@@ -28,12 +28,7 @@ const FabGroup = ({navigation}) => {
               label: 'Image Search',
               onPress: () => navigation.navigate('ImageSearch'),
               style: {backgroundColor: '#83AEA0'}
-            },
-            {
-              icon: 'camera',
-              label: 'PLANT DETAILS REMOVE ME',
-              onPress: () => navigation.navigate('PlantDetails'),
-            },
+            }
           ]}
           onStateChange={onStateChange}
           onPress={() => {
