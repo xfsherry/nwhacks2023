@@ -11,18 +11,15 @@ import { ScrollView, SafeAreaView } from 'react-native';
 import { StyleSheet} from 'react-native';
 
 const TextSearchScreen = ({navigation, route}) => {
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const [searchData, setSearchData] = useState([]);
     const { analyzedPlantName } = route.params; 
+    const [searchQuery, setSearchQuery] = React.useState(analyzedPlantName ? analyzedPlantName : '');
+    const [searchData, setSearchData] = useState([]);
 
     const onChangeSearch = query => setSearchQuery(query);
   
+
     const fetchSearch = async () => {
       try {
-
-        if (analyzedPlantName) {
-            setSearchQuery(analyzedPlantName);
-        }
 
          const { data } = await axios.get(`http://10.19.132.114:8000/plant/search/${searchQuery}`);
              if (data) {

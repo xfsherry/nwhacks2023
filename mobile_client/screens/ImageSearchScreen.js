@@ -8,7 +8,7 @@ const ImageSearchScreen = ({navigation, route}) => {
     return (
         <PaperProvider>
             <Header navigation={navigation} route={route}></Header>
-            <ImagePicker />
+            <ImagePicker navigation={navigation} />
         </PaperProvider>
     );
 };

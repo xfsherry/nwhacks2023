@@ -4,7 +4,7 @@ import { Button, Text, FAB } from 'react-native-paper';
 import * as ExpoImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
-export default function ImagePicker() {
+export default function ImagePicker({navigation}) {
   const [image, setImage] = useState(null);
   const [plantName, setPlantName] = useState('');
 
@@ -41,7 +41,7 @@ export default function ImagePicker() {
     const plantName = await axios.post("http://10.19.132.114:8000/sendimage", {base64EncodedImage: image.base64}).then((res) => res.data);
     console.log(plantName);
     setPlantName(plantName);
-    navigation.navigate('TextSearch', {plantName});
+    navigation.navigate('TextSearch', {analyzedPlantName: plantName});
 
 
   }

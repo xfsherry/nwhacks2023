@@ -1,7 +1,6 @@
 import { Provider as PaperProvider } from 'react-native-paper';
 import Header from '../components/Header';
 import FabGroup from '../components/fabGroup';
-import { GlobalContext } from '../Context/GlobalState';
 import { useState, useEffect, useContext } from 'react';
 import { Image, Text, View, Button } from 'react-native';
 import axios from 'axios';
