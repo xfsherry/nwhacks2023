@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Image, View } from 'react-native';
+import { Button, Text, FAB } from 'react-native-paper';
 import * as ExpoImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
@@ -42,13 +43,53 @@ export default function ImagePicker() {
     setPlantName(plantName);
   }
 
+  const styles = {
+    image: {
+      width: 200,
+      height: 200,
+      borderRadius: 5
+    },
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    fabButtonCamera: {
+      backgroundColor: '#83AEA0',
+      marginRight: '25%'
+    },
+    fabButtonGallery: {
+      backgroundColor: '#83AEA0'
+    },
+    buttonWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      marginTop: 30
+    },
+    analyzeButton: {
+      backgroundColor: '#83AEA0',
+      borderRadius: 10,
+      marginTop: 60
+    }
+  };
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      <Button title="Take a photo" onPress={takeImage} />
-      {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-      <Button title="Process Photo" onPress={image ? (event) => sendImage(event) : (event) => {}} />
+    <View style={styles.container}>
+      {image ? <Image source={{ uri: image.uri }} style={styles.image} /> : <View style={styles.image}/>}
       <Text>{plantName}</Text>
+      <View style={styles.buttonWrapper}>
+        <FAB
+          icon="camera"
+          style={styles.fabButtonCamera}
+          onPress={takeImage}
+        />
+        <FAB
+          icon="image-multiple"
+          style={styles.fabButtonGallery}
+          onPress={pickImage}
+        />
+      </View>
+      {image && <Button textColor='#1B1B20' mode='contained' style={styles.analyzeButton} children="Analyze Photo" onPress={image ? (event) => sendImage(event) : (_event) => {}} />}
     </View>
   );
 }
