@@ -1,3 +1,22 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import axios from 'axios';
+import {SerialPort} from 'serialport';
+import {ReadlineParser} from '@serialport/parser-readline';
+
+let moisturelevel: string;
+const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
+const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
+serialport.on("open", () => {
+  console.log('serial port open');
+});
+parser.on('data', (data: string) =>{
+  //console.log('arduino data:', data);
+  if (data.includes("%")) {
+    moisturelevel = data;
+  }
+});
+
 /**
  * Some predefined delay values (in milliseconds).
  */
@@ -7,28 +26,35 @@ export enum Delays {
   Long = 5000,
 }
 
-/**
- * Returns a Promise<string> that resolves after a given time.
- *
- * @param {string} name - A name.
- * @param {number=} [delay=Delays.Medium] - A number of milliseconds to delay resolution of the Promise.
- * @returns {Promise<string>}
- */
-function delayedHello(
-  name: string,
-  delay: number = Delays.Medium,
-): Promise<string> {
-  return new Promise((resolve: (value?: string) => void) =>
-    setTimeout(() => resolve(`Hello, ${name}`), delay),
-  );
-}
+dotenv.config();
 
-// Please see the comment in the .eslintrc.json file about the suppressed rule!
-// Below is an example of how to use ESLint errors suppression. You can read more
-// at https://eslint.org/docs/latest/user-guide/configuring/rules#disabling-rules
+const app = express();
+const port = 8000;
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export async function greeter(name: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-  // The name parameter should be of type string. Any is used only to trigger the rule.
-  return await delayedHello(name, Delays.Long);
-}
+app.get('/', (_req, res) => {
+  res.send('Express + TypeScript Server');
+});
+
+app.get('/moisturelevel', (_req, res) => {
+  res.send(moisturelevel);
+});
+
+app.get('/allplants', (req, res) => {
+  console.log(req.query);
+  axios.get('https://trefle.io/api/v1/plants?token=Xqg7iP0jBoxtzgXeRJ2R0c6hZrnn-g85nepk95b4k7g')
+  .then(response => {
+    console.log(response.data.url);
+    console.log(response.data.explanation);
+    res.send(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+})
+
+app.listen(port, () => {
+  console.log(`[server]: Server is running at http://localhost:${port}`);
+});
+
+
+
