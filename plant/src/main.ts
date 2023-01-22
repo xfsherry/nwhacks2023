@@ -2,8 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import {SerialPort} from 'serialport';
 import {ReadlineParser} from '@serialport/parser-readline';
-import axios, { Axios, AxiosResponse } from 'axios';
-import { Console } from 'console';
+import axios, { AxiosResponse } from 'axios';
+
+import cors from 'cors';
 
 let moisturelevel: string;
 const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
@@ -31,6 +32,10 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors({
+  origin: '*'
+}));
 
 app.get('/', (_req, res) => {
   res.send('Express + TypeScript Server');
