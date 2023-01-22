@@ -1,8 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import axios from 'axios';
 import {SerialPort} from 'serialport';
 import {ReadlineParser} from '@serialport/parser-readline';
+import axios, { Axios, AxiosResponse } from 'axios';
+import { Console } from 'console';
 
 let moisturelevel: string;
 const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
@@ -11,7 +12,7 @@ serialport.on("open", () => {
   console.log('serial port open');
 });
 parser.on('data', (data: string) =>{
-  //console.log('arduino data:', data);
+  console.log('arduino data:', data);
   if (data.includes("%")) {
     moisturelevel = data;
   }
@@ -63,22 +64,33 @@ app.post('/sendimage', (req, res) => {
   });
 });
 
-app.get('/allplants', (req, res) => {
-  console.log(req.query);
-  axios.get(`https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_KEY}`)
-  .then(response => {
-    console.log(response.data.url);
-    console.log(response.data.explanation);
-    res.send(response.data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
+app.get('/plant/:id', async (req, res) => {
+  try {
+  const result: AxiosResponse = await axios.get(`http://trefle.io/api/v1/plants/${req.params.id}?token=${process.env.TREFLE_API_TOKEN}`);
+  const data = {
+    id: result.data.data.id,
+    commonName: result.data.data.common_name,
+    scientificName: result.data.data.scientific_name,
+    imageUrl: result.data.data.image_url,
+    light: result.data.data.main_species.growth.light,
+    growthMonths: result.data.data.main_species.growth.growth_months,
+    soilHumidity: result.data.data.main_species.growth.soil_humidity
+  };
+  res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+app.get('/plant/search/:searchTerm', async (req, res) => {
+  try {
+    const result: AxiosResponse = await axios.get(`http://trefle.io/api/v1/plants/search?q=${req.params.searchTerm}&&token=${process.env.TREFLE_API_TOKEN}`);
+    res.send(result.data);
+  } catch (e) {
+    console.log(e);
+  }
 })
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
-
-
-
