@@ -6,6 +6,23 @@ import axios, { AxiosResponse } from 'axios';
 
 import cors from 'cors';
 
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, child, get } from "firebase/database";
+
+// TODO: Replace the following with your app's Firebase project configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAevdyJt6iaBfgRQaOvYcEefN0_hq4lt6E",
+  authDomain: "i-wet-my-plants-22e81.firebaseapp.com",
+  projectId: "i-wet-my-plants-22e81",
+  storageBucket: "i-wet-my-plants-22e81.appspot.com",
+  messagingSenderId: "1089025878985",
+  appId: "1:1089025878985:web:995c8746085c177b741618",
+  databaseURL: "https://i-wet-my-plants-22e81-default-rtdb.firebaseio.com/"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const database = getDatabase(firebaseApp);
+
 let moisturelevel: string;
 // const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
 // const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
@@ -40,6 +57,41 @@ app.use(cors({
 app.get('/', (_req, res) => {
   res.send('Express + TypeScript Server');
 });
+
+app.get('/myplants', (req, res) => {
+  const dbRef = ref(getDatabase());
+
+  get(child(dbRef, `plants/`)).then((snapshot) => {
+  if (snapshot.exists()) {
+    console.log(snapshot.val());
+    const response = []
+    for (const [key, value] of Object.entries(snapshot.val())) {
+      response.push({id: key, ...value as any});
+    }
+    res.send(response);
+  } else {
+    console.log("No data available");
+    res.send([]);
+  }
+  }).catch((error) => {
+    console.error(error);
+  });
+})
+
+app.post('/addplant', express.json(), async(req, res) => {
+  const writePlantData = async (id, common_name, scientific_name, image_url, moisture_level) => {
+    const db = getDatabase();
+    await set(ref(db, 'plants/' + id), {
+      common_name,
+      scientific_name,
+      image_url,
+      moisture_level
+    });
+  }
+  const { id, common_name, scientific_name, image_url, moisture_level } = req.body;
+  await writePlantData(id, common_name, scientific_name, image_url, moisture_level);
+  res.send('success');
+})
 
 app.get('/moisturelevel', (_req, res) => {
   res.send(moisturelevel);
