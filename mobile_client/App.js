@@ -1,17 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import axios, { AxiosResponse } from 'axios';
+import { StyleSheet} from 'react-native';
+import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Appbar, Provider as PaperProvider } from 'react-native-paper';
-import { useFonts } from 'expo-font';
-import FabGroup from './components/fabGroup';
-import Header from './components/Header';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screens/HomeScreen';
+import ImageSearchScreen from './screens/ImageSearchScreen';
+import TextSearchScreen from './screens/TextSearchScreen';
 
 export default function App() {
   const [plantData, setPlantData] = useState([]);
-  const [fontsLoaded] = useFonts({
-    "Open-Sans": require('./assets/OpenSans-VariableFont.ttf')
-  });
 
   const fetchPlant = async() => {
     try {
@@ -27,11 +24,17 @@ export default function App() {
     fetchPlant();
   }, []);
 
+  
+  const Stack = createNativeStackNavigator();
+
   return (
-    <PaperProvider>
-      <Header></Header>
-    <FabGroup></FabGroup>
-    </PaperProvider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: true }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="ImageSearch" component={ImageSearchScreen} />
+        <Stack.Screen name="TextSearch" component={TextSearchScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -40,14 +43,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    width: '100%', 
-    cursor: 'pointer', 
-    position: 'relative', 
-    textTransform: 'uppercase',
-    backgroundColor: '#83AEA0'
+    justifyContent: 'center'
   }
-
 });

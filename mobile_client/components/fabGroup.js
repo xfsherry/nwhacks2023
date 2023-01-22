@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FAB, Portal, Provider } from 'react-native-paper';
 
-const FabGroup = () => {
+const FabGroup = ({navigation}) => {
   const [state, setState] = React.useState({ open: false });
 
   const onStateChange = ({ open }) => setState({ open });
@@ -19,12 +19,12 @@ const FabGroup = () => {
             {
               icon: 'magnify',
               label: 'Text Search',
-              onPress: () => console.log('Pressed Text Search'),
+              onPress: () => navigation.navigate('TextSearch'),
             },
             {
               icon: 'camera',
               label: 'Image Search',
-              onPress: () => console.log('Pressed Image Search'),
+              onPress: () => navigation.navigate('ImageSearch'),
             },
           ]}
           onStateChange={onStateChange}
