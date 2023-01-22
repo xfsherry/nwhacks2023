@@ -29,7 +29,7 @@ export enum Delays {
 dotenv.config();
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT;
 
 app.get('/', (_req, res) => {
   res.send('Express + TypeScript Server');
@@ -39,9 +39,33 @@ app.get('/moisturelevel', (_req, res) => {
   res.send(moisturelevel);
 });
 
+app.post('/sendimage', (req, res) => {
+  const postBody = {
+    images: [req.body.base64EncodedImage]
+  };
+  const postOptions = {
+    headers: {
+      "Api-Key": process.env.PLANT_ID_API_KEY
+    },
+  };
+  axios.post(
+    'https://api.plant.id/v2/identify',
+    postBody,
+    postOptions
+    )
+  .then(response => {
+    console.log(response.data.url);
+    console.log(response.data.explanation);
+    res.send(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+});
+
 app.get('/allplants', (req, res) => {
   console.log(req.query);
-  axios.get('https://trefle.io/api/v1/plants?token=Xqg7iP0jBoxtzgXeRJ2R0c6hZrnn-g85nepk95b4k7g')
+  axios.get(`https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_KEY}`)
   .then(response => {
     console.log(response.data.url);
     console.log(response.data.explanation);
