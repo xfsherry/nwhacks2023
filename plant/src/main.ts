@@ -7,7 +7,7 @@ import axios, { AxiosResponse } from 'axios';
 import cors from 'cors';
 
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, child, get } from "firebase/database";
+import { getDatabase, ref, set, child, get, remove } from "firebase/database";
 
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
@@ -90,6 +90,15 @@ app.post('/addplant', express.json(), async(req, res) => {
   }
   const { id, common_name, scientific_name, image_url, moisture_level } = req.body;
   await writePlantData(id, common_name, scientific_name, image_url, moisture_level);
+  res.send('success');
+})
+
+app.post('/removeplant', express.json(), async(req, res) => {
+  const removePlantData = async (id) => {
+    const db = getDatabase();
+    await remove(ref(db, 'plants/' + id));
+  }
+  await removePlantData(req.body.id);
   res.send('success');
 })
 
