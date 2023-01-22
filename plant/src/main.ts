@@ -46,7 +46,6 @@ app.get('/moisturelevel', (_req, res) => {
 });
 
 app.post('/sendimage', express.json(),(req, res) => {
-  console.log(req)
   const postBody = {
     images: [req.body.base64EncodedImage]
   };
@@ -61,9 +60,12 @@ app.post('/sendimage', express.json(),(req, res) => {
     postOptions
     )
   .then(response => {
-    console.log(response.data.url);
-    console.log(response.data.explanation);
-    res.send(response.data);
+    console.log(response.data.suggestions);
+    if (response.data.suggestions[0]) {
+      res.send(response.data.suggestions[0].plant_name);
+    } else {
+      res.send("no suggestion found");
+    }
   })
   .catch(error => {
     console.log(error);
