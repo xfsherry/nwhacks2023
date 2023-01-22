@@ -22,7 +22,7 @@ const MyPlantCard = ({id, commonName, scientificName, img, moistureLevel, moistu
         <Text style={styles.scientificName} variant="bodyMedium">{commonName? scientificName : ''}</Text>
         <CustomProgressBar moisture={moisture}></CustomProgressBar>
         </Card.Content>
-        <Card.Cover source={{ uri: img }} />
+        <Card.Cover style={{marginTop:5}} source={{ uri: img }} />
     </Card>
     </>
     );

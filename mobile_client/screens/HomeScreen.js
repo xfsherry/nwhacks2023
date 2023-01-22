@@ -52,7 +52,7 @@ const HomeScreen = ({navigation, route}) => {
                         commonName={value.common_name}
                         scientificName={value.scientific_name}
                         moistureLevel={moistureLevel}
-                        moisture={value.moisture_level}
+                        moisture={value.soil_humidity}
                         img={value.image_url ? value.image_url : 'https://media.istockphoto.com/id/1354776450/vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-for-web-site-or.jpg?s=612x612&w=0&k=20&c=sE9bs1rjaBAZ5hO9WZ1JH_ItWjZaMih2zE9ig0GraWY='}
                         navigation={navigation}
                     />
