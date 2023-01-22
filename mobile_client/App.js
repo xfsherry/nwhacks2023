@@ -7,6 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import ImageSearchScreen from './screens/ImageSearchScreen';
 import TextSearchScreen from './screens/TextSearchScreen';
 import PlantDetailsScreen from './screens/PlantDetailsScreen';
+import { ScrollView, SafeAreaView } from 'react-native';
 
 export default function App() {
   const [plantData, setPlantData] = useState([]);

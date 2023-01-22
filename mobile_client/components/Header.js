@@ -2,17 +2,23 @@ import { Appbar, Provider as PaperProvider } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
-const Header = ({navigation}) => {
+const Header = ({navigation, route}) => {
     const [fontsLoaded] = useFonts({
         "Open-Sans": require('../assets/OpenSans-VariableFont.ttf')
     });
 
-    return(
-      <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => navigation.navigate('Home')} />
-        <Appbar.Content  titleStyle= {{ fontFamily: 'Open-Sans', fontSize: 28 }} title="I wet my plants" />
-      </Appbar.Header>
-    )
+    const backButton = (navigation, route) => {
+        console.log(route.name);
+        return route.name != "Home"? <Appbar.BackAction onPress={() => navigation.navigate('Home')} /> : <></>
+      }
+
+      return(
+        <Appbar.Header style={styles.header}>
+          {backButton(navigation, route)}
+          <Appbar.Content  titleStyle= {{ fontFamily: 'Open-Sans', fontSize: 28 }} style={{alignItems: 'center'}} title="I wet my plants" />
+          <Appbar.Action icon="sprout"/>
+        </Appbar.Header>
+      )
 }
 
 const styles = StyleSheet.create({
@@ -25,9 +31,8 @@ const styles = StyleSheet.create({
     header: {
       width: '100%', 
       cursor: 'pointer', 
-      position: 'relative', 
       textTransform: 'uppercase',
-      backgroundColor: '#83AEA0'
+      backgroundColor: '#83AEA0',
     }
 });
 

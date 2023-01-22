@@ -2,7 +2,8 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import Header from '../components/Header';
 import ImagePicker from '../ImagePicker';
 
-const ImageSearchScreen = ({navigation}) => {
+const ImageSearchScreen = ({navigation, route}) => {
+    console.log(navigation.getState().routes[0].name);
 
     return (
         <PaperProvider>

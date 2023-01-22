@@ -12,6 +12,7 @@ const FabGroup = ({navigation}) => {
     <Provider>
       <Portal>
         <FAB.Group
+          fabStyle={{backgroundColor: '#83AEA0'}}
           open={open}
           visible
           icon={open ? 'close' : 'plus'}
@@ -20,11 +21,13 @@ const FabGroup = ({navigation}) => {
               icon: 'magnify',
               label: 'Text Search',
               onPress: () => navigation.navigate('TextSearch'),
+              style: {backgroundColor: '#83AEA0'}
             },
             {
               icon: 'camera',
               label: 'Image Search',
               onPress: () => navigation.navigate('ImageSearch'),
+              style: {backgroundColor: '#83AEA0'}
             },
             {
               icon: 'camera',
