@@ -75,17 +75,25 @@ app.post('/sendimage', express.json(),(req, res) => {
 app.get('/plant/:id', async (req, res) => {
   try {
   const result: AxiosResponse = await axios.get(`http://trefle.io/api/v1/plants/${req.params.id}?token=${process.env.TREFLE_API_TOKEN}`);
-  const data = {
-    id: result.data.data.id,
-    commonName: result.data.data.common_name,
-    scientificName: result.data.data.scientific_name,
-    imageUrl: result.data.data.image_url,
-    light: result.data.data.main_species.growth.light,
-    growthMonths: result.data.data.main_species.growth.growth_months,
-    soilHumidity: result.data.data.main_species.growth.soil_humidity
+  const data = result.data.data;
+  const mainSpecies = data.main_species;
+  const dataResponse = {
+    id: data.id,
+    commonName: data.common_name,
+    scientificName: data.scientific_name,
+    imageUrl: data.image_url,
+    light: mainSpecies.growth.light,
+    growthMonths: mainSpecies.growth.growth_months,
+    soilHumidity: mainSpecies.growth.soil_humidity,
+    family: mainSpecies.family,
+    familyCommonName: mainSpecies.family_common_name,
+    edible: mainSpecies.edible,
+    ediblePart: mainSpecies.edible_part,
+    genus: mainSpecies.genus,
+    nativeTo: mainSpecies.distribution.native
   };
   console.log("yee");
-  res.send(data);
+  res.send(dataResponse);
   } catch (e) {
     console.log(e);
   }
