@@ -1,23 +1,23 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import {SerialPort} from 'serialport';
-import {ReadlineParser} from '@serialport/parser-readline';
+// import {SerialPort} from 'serialport';
+// import {ReadlineParser} from '@serialport/parser-readline';
 import axios, { AxiosResponse } from 'axios';
 
 import cors from 'cors';
 
 let moisturelevel: string;
-const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
-const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
-serialport.on("open", () => {
-  console.log('serial port open');
-});
-parser.on('data', (data: string) =>{
-  //console.log('arduino data:', data);
-  if (data.includes("%")) {
-    moisturelevel = data;
-  }
-});
+// const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
+// const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
+// serialport.on("open", () => {
+//   console.log('serial port open');
+// });
+// parser.on('data', (data: string) =>{
+//   //console.log('arduino data:', data);
+//   if (data.includes("%")) {
+//     moisturelevel = data;
+//   }
+// });
 
 /**
  * Some predefined delay values (in milliseconds).
@@ -84,6 +84,7 @@ app.get('/plant/:id', async (req, res) => {
     growthMonths: result.data.data.main_species.growth.growth_months,
     soilHumidity: result.data.data.main_species.growth.soil_humidity
   };
+  console.log("yee");
   res.send(data);
   } catch (e) {
     console.log(e);
