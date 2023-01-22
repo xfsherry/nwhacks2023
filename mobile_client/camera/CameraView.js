@@ -5,7 +5,6 @@ import * as Permissions from 'expo-permissions';
 
 import styles from './styles';
 import Toolbar from './toolbar.component';
-import Gallery from './gallery.component';
 
 export default class CameraView extends React.Component {
     camera = null;
@@ -64,8 +63,6 @@ export default class CameraView extends React.Component {
                         ref={camera => this.camera = camera}
                     />
                 </View>
-
-                {captures.length > 0 && <Gallery captures={captures}/>}
 
                 <Toolbar 
                     capturing={capturing}
