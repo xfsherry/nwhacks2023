@@ -26,6 +26,11 @@ const FabGroup = ({navigation}) => {
               label: 'Image Search',
               onPress: () => navigation.navigate('ImageSearch'),
             },
+            {
+              icon: 'camera',
+              label: 'PLANT DETAILS REMOVE ME',
+              onPress: () => navigation.navigate('PlantDetails'),
+            },
           ]}
           onStateChange={onStateChange}
           onPress={() => {
