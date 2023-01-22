@@ -20,7 +20,7 @@ const FabGroup = ({navigation}) => {
             {
               icon: 'magnify',
               label: 'Text Search',
-              onPress: () => navigation.navigate('TextSearch'),
+              onPress: () => navigation.navigate('TextSearch', {}),
               style: {backgroundColor: '#83AEA0'}
             },
             {

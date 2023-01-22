@@ -6,14 +6,14 @@ import { Image, Text, View, Button } from 'react-native';
 import axios from 'axios';
 
 const PlantDetailsScreen = ({navigation, route}) => {
-  const [plantData, setPlantData] = useState([]);
+  const {id} = route.params;
 
-  // const {addPlantToMyPlants} = useContext(GlobalContext);
+  const [plantData, setPlantData] = useState([]);
 
 
   const fetchPlant = async() => {
     try {
-      const data = await axios.get(`http://10.19.134.173:8000/plant/238331`);
+      const data = await axios.get(`http://10.19.132.114:8000/plant/${id}`);
       console.log(data.data);
       setPlantData(data.data);
     } catch (error) {
@@ -28,7 +28,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
     return (
         <PaperProvider>
             <Header navigation={navigation} route={route}></Header>
-              <Image source={ plantData.imageUrl ? plantData.imageUrl : require('../assets/placeholderplant.jpg')} style={styles.image} />
+              <Image source={{ uri: plantData.imageUrl ? plantData.imageUrl : 'https://media.istockphoto.com/id/1354776450/vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-for-web-site-or.jpg?s=612x612&w=0&k=20&c=sE9bs1rjaBAZ5hO9WZ1JH_ItWjZaMih2zE9ig0GraWY='}} style={styles.image} />
               <View style={styles.wrapper}>
                 <Text style={styles.bold} variant='titleLarge'>{`${plantData.commonName ?? '(Common Name Not Found)'}`}</Text>
                 <Text style={styles.italic} variant="titleMedium">{`${plantData.scientificName ?? 'N/A'}`}</Text>

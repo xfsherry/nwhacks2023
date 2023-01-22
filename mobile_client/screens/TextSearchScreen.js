@@ -11,8 +11,8 @@ import { ScrollView, SafeAreaView } from 'react-native';
 import { StyleSheet} from 'react-native';
 
 const TextSearchScreen = ({navigation, route}) => {
-    const { analyzedPlantName } = route.params; 
-    const [searchQuery, setSearchQuery] = React.useState(analyzedPlantName ? analyzedPlantName : '');
+    // const { analyzedPlantName } = route.params; 
+    const [searchQuery, setSearchQuery] = React.useState('');
     const [searchData, setSearchData] = useState([]);
 
     const onChangeSearch = query => setSearchQuery(query);
@@ -33,6 +33,16 @@ const TextSearchScreen = ({navigation, route}) => {
     };
 
     useEffect(() => {
+        const { analyzedPlantName } = route.params; 
+        if (analyzedPlantName) {
+            setSearchQuery(analyzedPlantName)
+        }
+
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
         // window.scroll(0,0);
         fetchSearch();
 
@@ -49,6 +59,7 @@ const TextSearchScreen = ({navigation, route}) => {
                     {searchData && 
                             searchData.map((value) => (
                                 < PlantCard
+                                    id={value.id}
                                     key={value.id}
                                     commonName={value.common_name}
                                     scientificName={value.scientific_name}

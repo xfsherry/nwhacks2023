@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import CustomProgressBar from './progressBar';
 
-const PlantCard = ({id, commonName, scientificName, img, navigation}) => {
+const PlantCard = ({commonName, scientificName, img, navigation}) => {
     console.log(commonName);
     console.log(scientificName);
     
@@ -11,12 +12,13 @@ const PlantCard = ({id, commonName, scientificName, img, navigation}) => {
     <Card 
         mode={'contained'} 
         style={styles.plantCard}
-        onPress={()=> navigation.navigate('PlantDetails', { id: id})}>
+        onPress={()=> navigation.navigate('PlantDetails')}>
         <Card.Content>
         <Text variant="titleLarge">{commonName ? commonName: scientificName}</Text>
         <Text style={styles.scientificName} variant="bodyMedium">{commonName? scientificName : ''}</Text>
         </Card.Content>
         <Card.Cover source={{ uri: img }} />
+        <CustomProgressBar></CustomProgressBar>
     </Card>
     );
 }

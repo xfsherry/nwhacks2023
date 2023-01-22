@@ -145,7 +145,7 @@ app.get('/plant/:id', async (req, res) => {
     imageUrl: data.image_url,
     light: mainSpecies.growth.light,
     growthMonths: mainSpecies.growth.growth_months,
-    soilHumidity: mainSpecies.growth.soil_humidity,
+    soilHumidity: Math.floor(Math.random()*11),
     family: mainSpecies.family,
     familyCommonName: mainSpecies.family_common_name,
     edible: mainSpecies.edible,
@@ -153,6 +153,7 @@ app.get('/plant/:id', async (req, res) => {
     genus: mainSpecies.genus,
     nativeTo: mainSpecies.distribution.native
   };
+  console.log(result.data.data);
   console.log("yee");
   res.send(dataResponse);
   } catch (e) {
