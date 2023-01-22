@@ -13,7 +13,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
 
   const fetchPlant = async() => {
     try {
-      const data = await axios.get(`http://10.19.132.114:8000/plant/${id}`);
+      const data = await axios.get(`http://10.19.130.59:8000/plant/${id}`);
       console.log(data.data);
       setPlantData(data.data);
     } catch (error) {
