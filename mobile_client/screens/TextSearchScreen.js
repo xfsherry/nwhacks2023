@@ -13,11 +13,17 @@ import { StyleSheet} from 'react-native';
 const TextSearchScreen = ({navigation, route}) => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [searchData, setSearchData] = useState([]);
+    const { analyzedPlantName } = route.params; 
 
     const onChangeSearch = query => setSearchQuery(query);
   
     const fetchSearch = async () => {
       try {
+
+        if (analyzedPlantName) {
+            setSearchQuery(analyzedPlantName);
+        }
+
          const { data } = await axios.get(`http://10.19.132.114:8000/plant/search/${searchQuery}`);
              if (data) {
              setSearchData(data.data);
@@ -50,6 +56,7 @@ const TextSearchScreen = ({navigation, route}) => {
                                     commonName={value.common_name}
                                     scientificName={value.scientific_name}
                                     img={value.image_url ? value.image_url : 'https://media.istockphoto.com/id/1354776450/vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-for-web-site-or.jpg?s=612x612&w=0&k=20&c=sE9bs1rjaBAZ5hO9WZ1JH_ItWjZaMih2zE9ig0GraWY='}
+                                    navigation={navigation}
                                 />
                             ))}
                     {searchData &&

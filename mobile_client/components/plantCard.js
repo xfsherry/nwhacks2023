@@ -4,13 +4,16 @@ import { StyleSheet } from 'react-native';
 
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
 
-const PlantCard = ({commonName, scientificName, img}) => {
+const PlantCard = ({commonName, scientificName, img, navigation}) => {
     console.log(commonName);
     console.log(scientificName);
     
 
   return (  
-    <Card mode={'contained'} style={styles.plantCard}>
+    <Card 
+        mode={'contained'} 
+        style={styles.plantCard}
+        onPress={()=> navigation.navigate('PlantDetails')}>
         <Card.Content>
         <Text variant="titleLarge">{commonName ? commonName: scientificName}</Text>
         <Text style={styles.scientificName} variant="bodyMedium">{commonName? scientificName : ''}</Text>

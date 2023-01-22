@@ -1,13 +1,16 @@
 import { Provider as PaperProvider } from 'react-native-paper';
 import Header from '../components/Header';
 import FabGroup from '../components/fabGroup';
-import { useState, useEffect } from 'react';
-import { Image, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { GlobalContext } from '../Context/GlobalState';
+import { useState, useEffect, useContext } from 'react';
+import { Image, Text, View, Button } from 'react-native';
 import axios from 'axios';
 
 const PlantDetailsScreen = ({navigation, route}) => {
   const [plantData, setPlantData] = useState([]);
+
+  // const {addPlantToMyPlants} = useContext(GlobalContext);
+
 
   const fetchPlant = async() => {
     try {
@@ -39,6 +42,8 @@ const PlantDetailsScreen = ({navigation, route}) => {
                 <Text>{`Native To: ${plantData.nativeTo ? plantData.nativeTo.join(', ') : 'N/A'}`}</Text>
                 <Text>{`Edible: ${plantData.edible === false ? 'False': 'True'}`}</Text>
                 <Text>{`Edible Part: ${plantData.ediblePart ?? 'N/A'}`}</Text>
+                <Text>{`Family: ${plantData.family ?? 'N/A'}`}</Text>
+
               </View>
             <FabGroup navigation={navigation}></FabGroup>
         </PaperProvider>

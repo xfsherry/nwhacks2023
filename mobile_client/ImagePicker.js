@@ -41,6 +41,9 @@ export default function ImagePicker() {
     const plantName = await axios.post("http://10.19.132.114:8000/sendimage", {base64EncodedImage: image.base64}).then((res) => res.data);
     console.log(plantName);
     setPlantName(plantName);
+    navigation.navigate('TextSearch', {plantName});
+
+
   }
 
   const styles = {
