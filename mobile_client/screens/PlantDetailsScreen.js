@@ -4,12 +4,26 @@ import FabGroup from '../components/fabGroup';
 import { useState, useEffect, useContext } from 'react';
 import { Image, Text, View, Button } from 'react-native';
 import axios from 'axios';
+import { ScrollView, SafeAreaView } from 'react-native';
 
 const PlantDetailsScreen = ({navigation, route}) => {
   const {id} = route.params;
 
   const [plantData, setPlantData] = useState([]);
 
+  const addToMyPlants = async() => {
+    try {
+      const data = await axios.post(`http://10.19.132.114:8000/addplant`, {
+        id: plantData.id,
+        common_name: plantData.commonName,
+        scientific_name: plantData.scientificName,
+        image_url: plantData.imageUrl,
+        moisture_level: plantData.moistureLevel
+      });
+    } catch (error) {
+        console.log(error);
+    }
+  }
 
   const fetchPlant = async() => {
     try {
@@ -26,6 +40,8 @@ const PlantDetailsScreen = ({navigation, route}) => {
   }, []);
 
     return (
+      <SafeAreaView style={styles.container}>
+      <ScrollView>
         <PaperProvider>
             <Header navigation={navigation} route={route}></Header>
               <Image source={{ uri: plantData.imageUrl ? plantData.imageUrl : 'https://media.istockphoto.com/id/1354776450/vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-for-web-site-or.jpg?s=612x612&w=0&k=20&c=sE9bs1rjaBAZ5hO9WZ1JH_ItWjZaMih2zE9ig0GraWY='}} style={styles.image} />
@@ -42,14 +58,19 @@ const PlantDetailsScreen = ({navigation, route}) => {
                 <Text>{`Edible: ${plantData.edible === false ? 'False': 'True'}`}</Text>
                 <Text>{`Edible Part: ${plantData.ediblePart ?? 'N/A'}`}</Text>
                 <Text>{`Family: ${plantData.family ?? 'N/A'}`}</Text>
-
               </View>
+              <Button title="Add to My Plants" onPress={() => addToMyPlants()}></Button>
             <FabGroup navigation={navigation}></FabGroup>
         </PaperProvider>
+        </ScrollView>
+    </SafeAreaView>
     );
 };
 
 const styles = {
+  container: {
+    flex: 1
+  },
   wrapper: {
     display: 'flex',
     alignItems: 'center',
@@ -59,7 +80,8 @@ const styles = {
     marginRight: 10,
     marginLeft: 10,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 30
   },
   italic: {
     fontStyle: 'italic'
