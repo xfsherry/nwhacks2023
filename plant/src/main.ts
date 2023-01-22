@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import axios from 'axios';
 import {SerialPort} from 'serialport';
 import {ReadlineParser} from '@serialport/parser-readline';
 
@@ -10,7 +11,7 @@ serialport.on("open", () => {
   console.log('serial port open');
 });
 parser.on('data', (data: string) =>{
-  console.log('arduino data:', data);
+  //console.log('arduino data:', data);
   if (data.includes("%")) {
     moisturelevel = data;
   }
@@ -37,6 +38,19 @@ app.get('/', (_req, res) => {
 app.get('/moisturelevel', (_req, res) => {
   res.send(moisturelevel);
 });
+
+app.get('/allplants', (req, res) => {
+  console.log(req.query);
+  axios.get('https://trefle.io/api/v1/plants?token=Xqg7iP0jBoxtzgXeRJ2R0c6hZrnn-g85nepk95b4k7g')
+  .then(response => {
+    console.log(response.data.url);
+    console.log(response.data.explanation);
+    res.send(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+})
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
