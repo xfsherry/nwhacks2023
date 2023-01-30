@@ -3,7 +3,7 @@
 # Setup
 
 1. Configure the .env files and run `npm install` in the `mobile_client` and `plant` folders.
-2. Set up and run your arduino with the code provided in the `plant_sensor` folder, making sure that you change the `AirValue` and `WaterValue` variables. (If you do not have an arduino you can skip this step)
+2. Set up and run your arduino with the code provided in the `plant_sensor` folder, making sure that you change the `AirValue` and `WaterValue` variables. You can use the instructions [here](https://how2electronics.com/interface-capacitive-soil-moisture-sensor-arduino/) to set up the sensor. (If you do not have an arduino you can skip this step). 
 3. Uncomment the code in `main.ts` in the backend to enable reading of the sensor data. (If you do not have an arduino you can skip this step)
 4. Run the backend: `npm run start`
 5. Run the frontend: `npx expo start --tunnel`
