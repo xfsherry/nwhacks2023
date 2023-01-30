@@ -3,6 +3,7 @@ import { Image, View } from 'react-native';
 import { Button, Text, FAB } from 'react-native-paper';
 import * as ExpoImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import { IP_ADDRESS } from "@env"
 
 export default function ImagePicker({navigation}) {
   const [image, setImage] = useState(null);
@@ -38,7 +39,7 @@ export default function ImagePicker({navigation}) {
   };
 
   const sendImage = async (_event) => {
-    const plantName = await axios.post("http://10.19.132.114:8000/sendimage", {base64EncodedImage: image.base64}).then((res) => res.data);
+    const plantName = await axios.post(`http://${IP_ADDRESS}:8000/sendimage`, {base64EncodedImage: image.base64}).then((res) => res.data);
     console.log(plantName);
     setPlantName(plantName);
     navigation.navigate('TextSearch', {analyzedPlantName: plantName});

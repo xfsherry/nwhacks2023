@@ -8,6 +8,7 @@ import axios from "axios";
 import MyPlantCard from '../components/myPlantsCard';
 import { ScrollView, SafeAreaView } from 'react-native';
 import { StyleSheet} from 'react-native';
+import { IP_ADDRESS } from "@env"
 
 const HomeScreen = ({navigation, route}) => {
 
@@ -16,8 +17,8 @@ const HomeScreen = ({navigation, route}) => {
 
     const getMyPlants = async() => {
         try {
-            const data = await axios.get(`http://10.19.134.173:8000/myplants`);
-            console.log(data.data);
+            const data = await axios.get(`http://${IP_ADDRESS}:8000/myplants`);
+            console.log(data);
             setMyPlantData(data.data);
         } catch (error) {
             console.log(error);
@@ -26,11 +27,12 @@ const HomeScreen = ({navigation, route}) => {
 
     const getMoistureLevel = async () => {
         try {
-            const data = await axios.get(`http://10.19.134.173:8000/moisturelevel`);
+            const data = await axios.get(`http://${IP_ADDRESS}:8000/moisturelevel`);
             console.log(data.data);
-            setMoistureLevel(data.data);
+            setMoistureLevel(data.data ? data.data : "11%");
         } catch (error) {
             console.log(error);
+            setMoistureLevel('error%');
         }
     }
 

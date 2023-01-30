@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Image, Text, View, Button } from 'react-native';
 import axios from 'axios';
 import { ScrollView, SafeAreaView } from 'react-native';
+import { IP_ADDRESS } from "@env"
 
 const PlantDetailsScreen = ({navigation, route}) => {
   const {id} = route.params;
@@ -13,7 +14,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
 
   const addToMyPlants = async (e) => {
     try {
-      const data = await axios.post(`http://10.19.134.173:8000/addplant`, {
+      const data = await axios.post(`http://${IP_ADDRESS}:8000/addplant`, {
         id: plantData.id,
         common_name: plantData.commonName,
         scientific_name: plantData.scientificName,
@@ -28,7 +29,7 @@ const PlantDetailsScreen = ({navigation, route}) => {
 
   const fetchPlant = async() => {
     try {
-      const data = await axios.get(`http://10.19.134.173:8000/plant/${id}`);
+      const data = await axios.get(`http://${IP_ADDRESS}:8000/plant/${id}`);
       console.log(data.data);
       setPlantData(data.data);
     } catch (error) {

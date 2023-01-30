@@ -9,6 +9,7 @@ import PlantCard from '../components/plantCard';
 import { View, Text} from 'react-native';
 import { ScrollView, SafeAreaView } from 'react-native';
 import { StyleSheet} from 'react-native';
+import { IP_ADDRESS } from "@env"
 
 const TextSearchScreen = ({navigation, route}) => {
     // const { analyzedPlantName } = route.params; 
@@ -21,7 +22,7 @@ const TextSearchScreen = ({navigation, route}) => {
     const fetchSearch = async () => {
       try {
 
-         const { data } = await axios.get(`http://10.19.134.173:8000/plant/search/${searchQuery}`);
+         const { data } = await axios.get(`http://${IP_ADDRESS}:8000/plant/search/${searchQuery}`);
              if (data) {
              setSearchData(data.data);
           //    setNumOfPages(data.total_pages);

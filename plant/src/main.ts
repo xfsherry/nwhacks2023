@@ -3,49 +3,43 @@ import dotenv from 'dotenv';
 import {SerialPort} from 'serialport';
 import {ReadlineParser} from '@serialport/parser-readline';
 import axios, { AxiosResponse } from 'axios';
-
 import cors from 'cors';
-
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, child, get, remove } from "firebase/database";
 
-// TODO: Replace the following with your app's Firebase project configuration
+dotenv.config();
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAevdyJt6iaBfgRQaOvYcEefN0_hq4lt6E",
-  authDomain: "i-wet-my-plants-22e81.firebaseapp.com",
-  projectId: "i-wet-my-plants-22e81",
-  storageBucket: "i-wet-my-plants-22e81.appspot.com",
-  messagingSenderId: "1089025878985",
-  appId: "1:1089025878985:web:995c8746085c177b741618",
-  databaseURL: "https://i-wet-my-plants-22e81-default-rtdb.firebaseio.com/"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  databaseURL: process.env.FIREBASE_DATABASE_URL
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const database = getDatabase(firebaseApp);
+initializeApp(firebaseConfig);
 
 let moisturelevel: string;
-const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
-const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
-serialport.on("open", () => {
-  console.log('serial port open');
-});
-parser.on('data', (data: string) =>{
-  //console.log('arduino data:', data);
-  if (data.includes("%")) {
-    moisturelevel = data;
-  }
-});
+/*
 
-/**
- * Some predefined delay values (in milliseconds).
- */
-export enum Delays {
-  Short = 500,
-  Medium = 2000,
-  Long = 5000,
-}
+*** IF YOU HAVE AN ARDUINO CONNECTED, UNCOMMENT THE CODE BELOW ***
 
-dotenv.config();
+*/
+
+// const serialport = new SerialPort({ path: 'COM3', baudRate: 9600 })
+// const parser = serialport.pipe(new ReadlineParser({ delimiter: '\n' }));
+// serialport.on("open", () => {
+//   console.log('serial port open');
+// });
+// parser.on('data', (data: string) =>{
+//   //console.log('arduino data:', data);
+//   if (data.includes("%")) {
+//     moisturelevel = data;
+//   }
+// });
+
 
 const app = express();
 const port = process.env.PORT;
@@ -152,8 +146,6 @@ app.get('/plant/:id', async (req, res) => {
     genus: mainSpecies.genus,
     nativeTo: mainSpecies.distribution.native
   };
-  //console.log(result.data.data);
-  console.log("yee");
   res.send(dataResponse);
   } catch (e) {
     console.log(e);
